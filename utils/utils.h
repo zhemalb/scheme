@@ -13,6 +13,7 @@
 #include <fstream>
 #include <array>
 #include <string_view>
+#include <cstddef>
 
 #ifdef __linux__
 #include <sys/time.h>
@@ -193,7 +194,7 @@ private:
     static inline auto is_active = false;
 };
 
-template <class T>
+template <class T = std::byte>
 MemoryGuard MakeMemoryGuard(size_t n) {
     return MemoryGuard{n * sizeof(T)};
 }
@@ -205,7 +206,7 @@ struct DummyGuard {
     }
 };
 
-template <class T>
+template <class T = std::byte>
 DummyGuard MakeMemoryGuard(size_t) {
     return {};
 }
