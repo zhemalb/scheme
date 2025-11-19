@@ -12,7 +12,7 @@ Char Classify(char ch) {
     }
 
     std::string_view start = "<=>*#";
-    std::string_view body  = "<=>*#?!-";
+    std::string_view body = "<=>*#?!-";
 
     if (std::isalpha(uch) || start.find(ch) != std::string_view::npos) {
         return Char::SymbolStart;

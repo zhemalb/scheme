@@ -41,7 +41,7 @@ public:
     Tokenizer(std::istream* in) {
         in_ = std::move(in);
         tokens_ = {};
-        pos_  = 0;
+        pos_ = 0;
         end_reached_ = false;
     }
 
