@@ -1,8 +1,21 @@
 #include "scheme.h"
 
-#include <stdexcept>
-#include <string>
+#include "builtins.h"
+#include "env.h"
+#include "parser.h"
+#include "printer.h"
+#include "tokenizer.h"
+
+#include <sstream>
+
+Scheme::Scheme() : global_env_(std::make_shared<Environment>()) {
+    AddBuiltins(global_env_);
+}
 
 std::string Scheme::Evaluate(const std::string& expression) {
-    throw std::runtime_error{"Not implemented"};
+    std::istringstream in(expression);
+    Tokenizer tokenizer(&in);
+    auto ast = Read(&tokenizer);
+    auto value = evaluator_.Eval(ast, global_env_);
+    return Print(value);
 }

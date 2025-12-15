@@ -1,6 +1,15 @@
-file(GLOB SRC CONFIGURE_DEPENDS "*.cpp")
+set(SRC scheme.cpp)
+file(GLOB_RECURSE SRC_SUB CONFIGURE_DEPENDS
+  "core/*.cpp"
+  "runtime/*.cpp"
+  "reader/*.cpp"
+  "builtins/*.cpp"
+  "util/*.cpp"
+)
+list(APPEND SRC ${SRC_SUB})
+
 add_library(libscheme ${SRC})
-target_include_directories(libscheme PUBLIC .)
+target_include_directories(libscheme PUBLIC . core runtime reader builtins util)
 
 # scheme-repl is not used for testing,
 # but you may use it if you need to experiment with the code.

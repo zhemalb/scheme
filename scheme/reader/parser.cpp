@@ -17,11 +17,29 @@ std::shared_ptr<Object> ReadInternal(Tokenizer* tokenizer) {
     }
     if (SymbolToken* symbol = std::get_if<SymbolToken>(&token)) {
         tokenizer->Next();
+        if (symbol->name == "#t") {
+            return True();
+        }
+        if (symbol->name == "#f") {
+            return False();
+        }
         return std::make_shared<Symbol>(symbol->name);
     }
     if (BracketToken* bracket = std::get_if<BracketToken>(&token)) {
+        if (*bracket != BracketToken::OPEN) {
+            ThrowSyntax();
+        }
         tokenizer->Next();
         return ReadList(tokenizer);
+    }
+    if (std::holds_alternative<QuoteToken>(token)) {
+        tokenizer->Next();
+        if (tokenizer->IsEnd()) {
+            ThrowSyntax();
+        }
+        auto quoted = ReadInternal(tokenizer);
+        auto quote_sym = std::make_shared<Symbol>("quote");
+        return std::make_shared<Cell>(quote_sym, std::make_shared<Cell>(quoted, nullptr));
     }
     if (std::holds_alternative<DotToken>(token)) {
         ThrowSyntax();
@@ -78,6 +96,9 @@ std::shared_ptr<Object> ReadList(Tokenizer* tokenizer) {
 }
 
 std::shared_ptr<Object> Read(Tokenizer* tokenizer) {
+    if (tokenizer->IsEnd()) {
+        ThrowSyntax();
+    }
     std::shared_ptr<Object> result = ReadInternal(tokenizer);
     if (!tokenizer->IsEnd()) {
         ThrowSyntax();

@@ -8,6 +8,19 @@ public:
     virtual ~Object() = default;
 };
 
+class Boolean : public Object {
+public:
+    explicit Boolean(bool value) : value_(value) {
+    }
+
+    bool GetValue() const {
+        return value_;
+    }
+
+private:
+    bool value_;
+};
+
 class Number : public Object {
 public:
     Number(int64_t value);
@@ -49,4 +62,18 @@ std::shared_ptr<T> As(const std::shared_ptr<Object>& obj) {
 template <class T>
 bool Is(const std::shared_ptr<Object>& obj) {
     return As<T>(obj) != nullptr;
+}
+
+inline std::shared_ptr<Boolean> True() {
+    static auto value = std::make_shared<Boolean>(true);
+    return value;
+}
+
+inline std::shared_ptr<Boolean> False() {
+    static auto value = std::make_shared<Boolean>(false);
+    return value;
+}
+
+inline std::shared_ptr<Boolean> MakeBool(bool value) {
+    return value ? True() : False();
 }
