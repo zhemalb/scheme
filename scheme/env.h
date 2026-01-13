@@ -44,6 +44,11 @@ public:
         throw NameError{name};
     }
 
+    void Clear() {
+        values_.clear();
+        parent_.reset();
+    }
+
 private:
     Ptr parent_;
     ValuesMap values_;

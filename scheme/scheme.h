@@ -10,6 +10,7 @@ class Environment;
 class Scheme {
 public:
     Scheme();
+    ~Scheme();
     std::string Evaluate(const std::string& expression);
 
 private:

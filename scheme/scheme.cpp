@@ -12,6 +12,12 @@ Scheme::Scheme() : global_env_(std::make_shared<Environment>()) {
     AddBuiltins(global_env_);
 }
 
+Scheme::~Scheme() {
+    if (global_env_) {
+        global_env_->Clear();
+    }
+}
+
 std::string Scheme::Evaluate(const std::string& expression) {
     std::istringstream in(expression);
     Tokenizer tokenizer(&in);
