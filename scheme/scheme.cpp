@@ -1,10 +1,11 @@
 #include "scheme.h"
 
-#include "builtins.h"
-#include "env.h"
-#include "parser.h"
-#include "printer.h"
-#include "tokenizer.h"
+#include "eval/eval.h"
+#include "io/printer.h"
+#include "reader/parser.h"
+#include "reader/tokenizer.h"
+#include "runtime/env.h"
+#include "stdlib/builtins.h"
 
 #include <sstream>
 

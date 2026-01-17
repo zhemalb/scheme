@@ -26,5 +26,5 @@ include(cmake/TestSolution.cmake)
 include_directories(utils)
 
 add_subdirectory(scheme)
-add_subdirectory(scheme-tokenizer)
-add_subdirectory(scheme-parser)
+add_subdirectory(apps)
+add_subdirectory(tests)
